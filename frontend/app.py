@@ -42,8 +42,8 @@ header {
 div[class*="InputContainer"],
 div[class*="chatInputContainer"],
 div[class*="bottom"] {
-    background: #0F1117 !important;
-    background-color: #0F1117 !important;
+    background: #1A1D2E !important;
+    background-color: #1A1D2E !important;
     border-top: 1px solid rgba(79,70,229,0.20) !important;
 }
 
@@ -114,7 +114,7 @@ h1::after {
 [data-testid="stChatMessage"] li,
 [data-testid="stChatMessage"] div,
 [data-testid="stChatMessage"] span {
-    color: #F1F5F9 !important;
+    color: #FFFFFF !important;
 }
 
 /* ════════════════════════════════════════
@@ -124,8 +124,8 @@ h1::after {
 .stChatInput,
 .stChatInput > div,
 [data-testid="stChatInputContainer"] > div {
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
+    background: #1A1D2E !important;
+    background-color: #1A1D2E !important;
     border: 1.5px solid rgba(79,70,229,0.45) !important;
     border-radius: 14px !important;
     box-shadow: 0 0 24px rgba(79,70,229,0.20) !important;
@@ -137,8 +137,8 @@ h1::after {
 .stChatInput input {
     background: transparent !important;
     background-color: transparent !important;
-    color: #000000 !important;
-    caret-color: #000000 !important;
+    color: #FFFFFF !important;
+    caret-color: #FFFFFF !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 0.96rem !important;
     font-weight: 500 !important;
