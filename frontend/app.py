@@ -124,8 +124,8 @@ h1::after {
 .stChatInput,
 .stChatInput > div,
 [data-testid="stChatInputContainer"] > div {
-    background: #1A1D2E !important;
-    background-color: #1A1D2E !important;
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
     border: 1.5px solid rgba(79,70,229,0.45) !important;
     border-radius: 14px !important;
     box-shadow: 0 0 24px rgba(79,70,229,0.20) !important;
@@ -137,8 +137,8 @@ h1::after {
 .stChatInput input {
     background: transparent !important;
     background-color: transparent !important;
-    color: #0F1117 !important;
-    caret-color: #4F46E5 !important;
+    color: #000000 !important;
+    caret-color: #000000 !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 0.96rem !important;
     font-weight: 500 !important;

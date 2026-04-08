@@ -1,9 +1,7 @@
-﻿venv/
+venv/
 __pycache__/
 .env
 *.db
 backend_error.log
-backend/database/
-data/
 *.log
 pineconeio.api.txt
