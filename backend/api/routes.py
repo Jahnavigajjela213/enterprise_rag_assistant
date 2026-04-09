@@ -54,7 +54,15 @@ async def ask_question(request: QueryRequest):
         }
 
     except Exception as e:
-        print("[ERROR] in /ask route:")
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        error_trace = traceback.format_exc()
+        print(f"[ERROR] in /ask route:\n{error_trace}")
+        # Include traceback in the response for debugging purposes
+        raise HTTPException(
+            status_code=500, 
+            detail={
+                "error": str(e),
+                "traceback": error_trace
+            }
+        )
+
 
