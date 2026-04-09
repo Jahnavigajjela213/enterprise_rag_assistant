@@ -1,4 +1,10 @@
-from langchain_huggingface import HuggingFaceEmbeddings
+import os
+from langchain_openai import OpenAIEmbeddings
 
 def get_embeddings():
-    return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    # Use OpenRouter's OpenAI-compatible endpoint
+    return OpenAIEmbeddings(
+        model="openai/text-embedding-3-small",
+        openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+        openai_api_base="https://openrouter.ai/api/v1"
+    )
