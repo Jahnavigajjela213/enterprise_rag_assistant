@@ -13,26 +13,43 @@ async def get_rag_engine():
     global qa_engine, retriever
 
     if qa_engine is None:
-        splits = load_documents()
-        
-        if not splits:
-            raise Exception("No PDF documents found in the 'data' directory. Please add some PDF files and restart.")
+        print("[DEBUG] Initializing RAG engine...")
+        try:
+            print("[DEBUG] Loading documents...")
+            splits = load_documents()
             
-        vectorstore = get_vector_store(splits)
+            if not splits:
+                print("[ERROR] No PDF documents found.")
+                raise Exception("No PDF documents found in the 'data' directory. Please add some PDF files and restart.")
+            
+            print(f"[DEBUG] Creating vector store with {len(splits)} splits...")
+            vectorstore = get_vector_store(splits)
 
-        retriever = vectorstore.as_retriever()
+            retriever = vectorstore.as_retriever()
 
-        llm = get_llm()
-        prompt = get_prompt()
+            print("[DEBUG] Initializing LLM...")
+            llm = get_llm()
+            
+            print("[DEBUG] Loading prompt template...")
+            prompt = get_prompt()
 
-        def format_docs(docs):
-            return "\n\n".join(doc.page_content for doc in docs)
+            def format_docs(docs):
+                return "\n\n".join(doc.page_content for doc in docs)
 
-        qa_engine = (
-            {"context": retriever | format_docs, "question": RunnablePassthrough()}
-            | prompt
-            | llm
-            | StrOutputParser()
-        )
+            print("[DEBUG] Building QA chain...")
+            qa_engine = (
+                {"context": retriever | format_docs, "question": RunnablePassthrough()}
+                | prompt
+                | llm
+                | StrOutputParser()
+            )
+            print("[SUCCESS] RAG engine initialized successfully.")
+
+        except Exception as e:
+            print(f"[ERROR] Failed to initialize RAG engine: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            raise e
 
     return qa_engine, retriever
+
