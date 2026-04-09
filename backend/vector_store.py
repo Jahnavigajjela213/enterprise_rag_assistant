@@ -19,9 +19,18 @@ def get_vector_store(splits):
                 embeddings,
                 allow_dangerous_deserialization=True
             )
-        except Exception as e:
-            print(f"[WARNING] Could not load existing vector store: {e}")
-            print("[DEBUG] Regenerating index...")
+        except (Exception, AssertionError) as e:
+            print(f"[WARNING] Could not load existing vector store (mismatch or corrupt): {e}")
+            print("[DEBUG] Forcing a fresh index rebuild...")
+            # If it's a dimensionality mismatch, we should delete the folder if it exists
+            if os.path.exists(config.VECTOR_DB_PATH):
+                import shutil
+                try:
+                    shutil.rmtree(config.VECTOR_DB_PATH)
+                    print(f"[DEBUG] Deleted stale vector store at {config.VECTOR_DB_PATH}")
+                except Exception as ex:
+                    print(f"[ERROR] Could not delete stale vector store: {ex}")
+
 
     # Create new index if loading failed or index doesn't exist
     try:

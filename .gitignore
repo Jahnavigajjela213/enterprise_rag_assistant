@@ -5,3 +5,5 @@ __pycache__/
 backend_error.log
 *.log
 pineconeio.api.txt
+vector_db/
+backend/vector_db/
