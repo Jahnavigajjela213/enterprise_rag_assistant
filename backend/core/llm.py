@@ -1,25 +1,24 @@
-import os
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
+import config
 
 def get_llm():
-    # 1. Primary Model: Gemini 2.5 Flash (via OpenRouter)
+    # 1. Primary Model: Gemini 2.5 Flash (via config)
     primary_llm = ChatOpenAI(
-        model_name="google/gemini-2.5-flash",
-        temperature=0,
-        openai_api_key=os.getenv("OPENROUTER_API_KEY"),
-        openai_api_base="https://openrouter.ai/api/v1"
+        model_name=config.PRIMARY_LLM_MODEL,
+        temperature=config.LLM_TEMPERATURE,
+        openai_api_key=config.OPENROUTER_API_KEY,
+        openai_api_base=config.OPENROUTER_API_BASE
     )
 
-    # 2. Fallback Model: Llama 3.3 (via Groq)
+    # 2. Fallback Model: Llama 3.3 (via config)
     fallback_llm = ChatGroq(
-        model_name="llama-3.3-70b-versatile",
-        temperature=0,
-        groq_api_key=os.getenv("GROQ_API_KEY")
+        model_name=config.FALLBACK_LLM_MODEL,
+        temperature=config.LLM_TEMPERATURE,
+        groq_api_key=config.GROQ_API_KEY
     )
 
     # 3. Combine with fallback logic
-    # If the primary model fails (e.g. rate limit, outage), it switches to the fallback
     llm_with_fallback = primary_llm.with_fallbacks([fallback_llm])
     
     return llm_with_fallback

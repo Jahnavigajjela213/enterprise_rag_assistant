@@ -1,21 +1,18 @@
 from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
-
-# Absolute path to the data directory
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+import config
 
 def load_documents():
     # Ensure folder exists
-    if not os.path.exists(DATA_DIR):
-        print(f"Creating data directory: {DATA_DIR}")
-        os.makedirs(DATA_DIR, exist_ok=True)
+    if not os.path.exists(config.DATA_PATH):
+        print(f"Creating data directory: {config.DATA_PATH}")
+        os.makedirs(config.DATA_PATH, exist_ok=True)
 
     print(f"Current working directory: {os.getcwd()}")
-    print(f"Data directory: {DATA_DIR}")
+    print(f"Data directory: {config.DATA_PATH}")
 
-    files = os.listdir(DATA_DIR)
+    files = os.listdir(config.DATA_PATH)
     pdf_files = [f for f in files if f.endswith('.pdf')]
     print(f"Files found in data directory: {files}")
     print(f"PDF files detected: {pdf_files}")
@@ -25,7 +22,7 @@ def load_documents():
         return []
 
     try:
-        loader = DirectoryLoader(DATA_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
+        loader = DirectoryLoader(config.DATA_PATH, glob="*.pdf", loader_cls=PyPDFLoader)
         documents = loader.load()
         print(f"Successfully loaded {len(documents)} document sections.")
     except Exception as e:
@@ -33,8 +30,8 @@ def load_documents():
         return []
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=100
+        chunk_size=config.CHUNK_SIZE,
+        chunk_overlap=config.CHUNK_OVERLAP
     )
 
     splits = splitter.split_documents(documents)

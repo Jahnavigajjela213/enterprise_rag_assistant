@@ -8,21 +8,25 @@ load_dotenv()
 # PROJECT PATHS
 # ==============================
 
-# Root project folder
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Data folder (PDFs)
 DATA_PATH = os.path.join(BASE_DIR, "data")
 
 # Vector database folder
-VECTOR_DB_PATH = os.path.join(BASE_DIR, "backend", "vector_db")
+VECTOR_DB_PATH = os.path.join(BASE_DIR, "vector_db")
 
 # ==============================
 # MODEL CONFIGURATION
 # ==============================
 
-# Embedding model
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+# Embedding model (OpenRouter)
+EMBEDDING_MODEL = "openai/text-embedding-3-small"
+OPENROUTER_API_BASE = "https://openrouter.ai/api/v1"
+
+# LLM models
+PRIMARY_LLM_MODEL = "google/gemini-2.5-flash"
+FALLBACK_LLM_MODEL = "llama-3.3-70b-versatile"
 
 # Chunking parameters
 CHUNK_SIZE = 1000
@@ -32,25 +36,22 @@ CHUNK_OVERLAP = 200
 TOP_K_RESULTS = 3
 
 # ==============================
-# LLM CONFIG
+# API KEYS
 # ==============================
 
-# If using Groq
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
+# ==============================
+# MODEL SETTINGS
+# ==============================
 
-# Model settings
 LLM_TEMPERATURE = 0
 
 # ==============================
-# API CONFIG
+# SERVER CONFIG
 # ==============================
 
 API_HOST = "0.0.0.0"
 API_PORT = 8000
-
-# ==============================
-# DEBUG
-# ==============================
-
 DEBUG = True
