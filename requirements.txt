@@ -11,3 +11,4 @@ pydantic
 sentence-transformers
 streamlit
 requests
+pypdf

@@ -245,20 +245,28 @@ if prompt := st.chat_input("Ask your question..."):
     try:
         with st.spinner("Thinking..."):
             response = requests.post(API_URL, json={"question": prompt})
-            data = response.json()
+            
+            if response.status_code == 200:
+                data = response.json()
+                answer = data.get("answer", "No response from assistant.")
+                sources = data.get("sources", [])
 
-        answer = data.get("answer", "No response")
-        sources = data.get("sources", [])
-
-        with st.chat_message("assistant"):
-            st.write(answer)
-
-            if sources:
-                with st.expander("Sources"):
-                    for s in sources:
-                        st.write(f"{s['file']} (Page {s['page']})")
-
-        st.session_state.messages.append({"role": "assistant", "content": answer})
+                with st.chat_message("assistant"):
+                    st.write(answer)
+                    if sources:
+                        with st.expander("Sources"):
+                            for s in sources:
+                                st.write(f"{s['file']} (Page {s['page']})")
+                
+                st.session_state.messages.append({"role": "assistant", "content": answer})
+            else:
+                try:
+                    error_detail = response.json().get("detail", "Unknown backend error")
+                except:
+                    error_detail = response.text or "Internal Server Error"
+                
+                st.error(f"Backend Error ({response.status_code}): {error_detail}")
+                st.session_state.messages.append({"role": "assistant", "content": f"⚠️ Error: {error_detail}"})
 
     except Exception as e:
-        st.error(f"Backend not connected: {e}")
+        st.error(f"Connection Error: Could not reach the backend. {e}")

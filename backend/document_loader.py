@@ -8,24 +8,35 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 
 def load_documents():
     # Ensure folder exists
-    os.makedirs(DATA_DIR, exist_ok=True)
+    if not os.path.exists(DATA_DIR):
+        print(f"Creating data directory: {DATA_DIR}")
+        os.makedirs(DATA_DIR, exist_ok=True)
 
-    print("Current working directory:", os.getcwd())
-    print("Data directory:", DATA_DIR)
+    print(f"Current working directory: {os.getcwd()}")
+    print(f"Data directory: {DATA_DIR}")
 
     files = os.listdir(DATA_DIR)
-    print("Files in data:", files)
+    pdf_files = [f for f in files if f.endswith('.pdf')]
+    print(f"Files found in data directory: {files}")
+    print(f"PDF files detected: {pdf_files}")
 
-    if not files:
-        print("⚠️ No PDF files found in data folder")
+    if not pdf_files:
+        print("⚠️ No PDF files found in data folder. Skipping loading.")
         return []
 
-    loader = DirectoryLoader(DATA_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
-    documents = loader.load()
+    try:
+        loader = DirectoryLoader(DATA_DIR, glob="*.pdf", loader_cls=PyPDFLoader)
+        documents = loader.load()
+        print(f"Successfully loaded {len(documents)} document sections.")
+    except Exception as e:
+        print(f"❌ Error loading documents with PyPDFLoader: {e}")
+        return []
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=100
     )
 
-    return splitter.split_documents(documents)
+    splits = splitter.split_documents(documents)
+    print(f"Split documents into {len(splits)} chunks.")
+    return splits
