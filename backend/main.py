@@ -27,4 +27,4 @@ app.include_router(router)
 
 @app.get("/")
 def root():
-    return {"message": "Enterprise RAG Assistant is running 🚀"}
+    return {"message": "Enterprise RAG Assistant is running"}
