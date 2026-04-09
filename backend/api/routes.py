@@ -34,10 +34,10 @@ async def ask_question(request: QueryRequest):
                 detail="RAG engine not initialized."
             )
 
-        # ✅ Pass string instead of dictionary
+        # [SUCCESS] Pass string instead of dictionary
         answer = qa_engine.invoke(request.question)
 
-        # 🔹 Retrieve source documents
+        # [INFO] Retrieve source documents
         docs = retriever.invoke(request.question)
 
         sources = [

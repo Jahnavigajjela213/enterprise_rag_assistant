@@ -14,7 +14,7 @@ def get_vector_store(splits):
                 allow_dangerous_deserialization=True
             )
         except Exception as e:
-            print(f"⚠️ Could not load existing vector store (perhaps model changed?): {e}")
+            print(f"[WARNING] Could not load existing vector store (perhaps model changed?): {e}")
             print("Regenerating index...")
 
     vectorstore = FAISS.from_documents(splits, embeddings)

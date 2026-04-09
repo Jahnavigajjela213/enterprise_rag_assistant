@@ -18,7 +18,7 @@ def load_documents():
     print(f"PDF files detected: {pdf_files}")
 
     if not pdf_files:
-        print("⚠️ No PDF files found in data folder. Skipping loading.")
+        print("[WARNING] No PDF files found in data folder. Skipping loading.")
         return []
 
     try:
@@ -26,7 +26,7 @@ def load_documents():
         documents = loader.load()
         print(f"Successfully loaded {len(documents)} document sections.")
     except Exception as e:
-        print(f"❌ Error loading documents with PyPDFLoader: {e}")
+        print(f"[ERROR] Error loading documents with PyPDFLoader: {e}")
         return []
 
     splitter = RecursiveCharacterTextSplitter(
